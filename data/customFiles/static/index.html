@@ -123,17 +123,26 @@
           if (searchInput) {
             var searchBox = searchInput.closest('div');
             var topBar = searchBox ? searchBox.parentElement : null;
-            if (topBar && !document.getElementById('stirling-sub-desktop')) {
-              var textNode = document.createElement('div');
-              textNode.id = 'stirling-sub-desktop';
+            if (topBar) {
               var host = window.location.hostname;
               var isTechhave = host.indexOf('techhave.com') !== -1;
               var odUrl = isTechhave 
                 ? window.location.protocol + '//ai-pdf.techhave.com' 
                 : window.location.protocol + '//' + host + ':9281';
-              textNode.innerHTML = '<span style="font-size: 12.5px; font-weight: 600; color: var(--c-text-muted, #71717A); white-space: nowrap; display: inline-flex; align-items: center; gap: 6px;"><strong style="font-weight: 800; color: var(--c-text-primary, inherit);">Stirling PDF</strong> <span style="opacity: 0.4;">|</span> <span>Trình xử lý mọi tác vụ PDF</span></span><a href="' + odUrl + '" style="margin-left: 12px; background: #EF4444; color: white; text-decoration: none; font-size: 11.5px; font-weight: 700; padding: 4px 10px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px; box-shadow: 0 2px 6px rgba(239, 68, 68, 0.3); transition: transform 0.2s;" onmouseover="this.style.transform=\'scale(1.05)\'" onmouseout="this.style.transform=\'scale(1)\'">⚡ Bóc tách AI (OpenDataLoader)</a>';
-              textNode.style.cssText = 'display: inline-flex; align-items: center; margin-right: 18px; user-select: none;';
-              topBar.insertBefore(textNode, searchBox);
+
+              var existing = document.getElementById('stirling-sub-desktop');
+              if (existing) {
+                var btn = existing.querySelector('a');
+                if (btn && btn.href !== odUrl) {
+                  btn.href = odUrl;
+                }
+              } else {
+                var textNode = document.createElement('div');
+                textNode.id = 'stirling-sub-desktop';
+                textNode.innerHTML = '<span style="font-size: 12.5px; font-weight: 600; color: var(--c-text-muted, #71717A); white-space: nowrap; display: inline-flex; align-items: center; gap: 6px;"><strong style="font-weight: 800; color: var(--c-text-primary, inherit);">Stirling PDF</strong> <span style="opacity: 0.4;">|</span> <span>Trình xử lý mọi tác vụ PDF</span></span><a id="btn-opendataloader" href="' + odUrl + '" onclick="var h=window.location.hostname; window.location.href=(h.indexOf(\'techhave.com\')!==-1?window.location.protocol+\'//ai-pdf.techhave.com\':window.location.protocol+\'//\'+h+\':9281\'); return false;" style="margin-left: 12px; background: #EF4444; color: white; text-decoration: none; font-size: 11.5px; font-weight: 700; padding: 4px 10px; border-radius: 6px; display: inline-flex; align-items: center; gap: 4px; box-shadow: 0 2px 6px rgba(239, 68, 68, 0.3); transition: transform 0.2s; cursor: pointer;" onmouseover="this.style.transform=\'scale(1.05)\'" onmouseout="this.style.transform=\'scale(1)\'">⚡ Bóc tách AI (OpenDataLoader)</a>';
+                textNode.style.cssText = 'display: inline-flex; align-items: center; margin-right: 18px; user-select: none;';
+                topBar.insertBefore(textNode, searchBox);
+              }
             }
           }
         }
