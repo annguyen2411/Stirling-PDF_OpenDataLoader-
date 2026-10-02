@@ -48,12 +48,29 @@ Giải pháp tự lưu trữ (Self-hosted) toàn diện dành cho văn phòng v�
 
 ## 🌐 Địa chỉ truy cập
 
-| Dịch vụ | Máy chủ (Localhost) | Mạng LAN nội bộ |
-| :--- | :--- | :--- |
-| **Stirling-PDF** | `http://localhost:9280` | `http://<IP_MAY_CHU>:9280` |
-| **OpenDataLoader-PDF** | `http://localhost:9281` | `http://<IP_MAY_CHU>:9281` |
+| Dịch vụ | Máy chủ (Localhost) | Mạng LAN nội bộ | Internet (Cloudflare Tunnel) |
+| :--- | :--- | :--- | :--- |
+| **Stirling-PDF** | `http://localhost:9280` | `http://<IP_MAY_CHU>:9280` | `https://pdf.techhave.com` |
+| **OpenDataLoader-PDF** | `http://localhost:9281` | `http://<IP_MAY_CHU>:9281` | `https://ai-pdf.techhave.com` |
 
 ---
+
+## 🔒 Cấu hình truy cập Internet (Cloudflare Tunnel)
+
+Hệ thống tích hợp sẵn dịch vụ `cloudflared` giúp xuất bản ứng dụng ra Internet an toàn mà không cần mở cổng modem:
+1. Sao chép `.env.example` thành `.env`:
+   ```bash
+   cp .env.example .env
+   ```
+2. Điền mã token của Cloudflare Tunnel vào:
+   ```env
+   CLOUDFLARE_TUNNEL_TOKEN=eyJh...
+   ```
+3. Khởi động dịch vụ tunnel:
+   ```bash
+   docker compose up -d cloudflared
+   ```
+
 
 ## 📁 Thư mục tự động hóa qua mạng LAN
 
