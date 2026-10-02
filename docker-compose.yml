@@ -45,3 +45,13 @@ services:
         limits:
           memory: 4g
     mem_limit: 4g
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflared-tunnel
+    restart: unless-stopped
+    command: tunnel --no-autoupdate run --token ${CLOUDFLARE_TUNNEL_TOKEN:-""}
+    depends_on:
+      - stirling-pdf
+      - opendataloader
+

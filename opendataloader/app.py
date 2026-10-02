@@ -296,7 +296,11 @@ HTML_PAGE = """<!DOCTYPE html>
 
   <script>
     // Link quay lại Stirling PDF trên cùng máy chủ
-    document.getElementById('back-to-stirling').href = window.location.protocol + '//' + window.location.hostname + ':9280';
+    const host = window.location.hostname;
+    const isTechhave = host.indexOf('techhave.com') !== -1;
+    document.getElementById('back-to-stirling').href = isTechhave
+      ? window.location.protocol + '//pdf.techhave.com'
+      : window.location.protocol + '//' + host + ':9280';
 
     const dropzone = document.getElementById('dropzone');
     const fileInput = document.getElementById('file-input');

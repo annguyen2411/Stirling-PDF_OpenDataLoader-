@@ -27,6 +27,9 @@ $RECYCLE.BIN/
 *.tmp
 *.temp
 
+# Environment variables
+.env
+
 # Python
 __pycache__/
 *.py[cod]
