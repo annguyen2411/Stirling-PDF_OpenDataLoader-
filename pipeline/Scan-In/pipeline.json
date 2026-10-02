@@ -1,0 +1,24 @@
+{
+  "name": "Auto-OCR-Vietnamese",
+  "pipeline": [
+    {
+      "operation": "/api/v1/misc/ocr-pdf",
+      "parameters": {
+        "languages": [
+          "vie",
+          "eng"
+        ],
+        "sidecar": false,
+        "deskew": true,
+        "clean": false,
+        "cleanFinal": false,
+        "ocrType": "skip-text",
+        "ocrRenderType": "hocr",
+        "removeImagesAfter": false,
+        "fileInput": "automated"
+      }
+    }
+  ],
+  "outputDir": "{outputFolder}",
+  "outputFileName": "{filename}_OCR"
+}

@@ -1,0 +1,35 @@
+# Ignore log files
+data/logs/*
+!data/logs/.gitkeep
+
+# Ignore runtime databases and backups
+data/extraConfigs/*.db
+data/extraConfigs/*.sql
+data/extraConfigs/backup/
+data/extraConfigs/credential-encryption.key
+
+# Ignore watch folder dynamic files, keep directories
+pipeline/Scan-In/*
+!pipeline/Scan-In/pipeline.json
+pipeline/Scan-Out/*
+!pipeline/Scan-Out/.gitkeep
+pipeline/PDF-To-Markdown-In/*
+!pipeline/PDF-To-Markdown-In/.gitkeep
+pipeline/PDF-To-Markdown-Out/*
+!pipeline/PDF-To-Markdown-Out/.gitkeep
+
+# OS & Temp
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.DS_Store
+*.tmp
+*.temp
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/

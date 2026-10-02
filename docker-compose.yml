@@ -1,0 +1,47 @@
+services:
+  stirling-pdf:
+    image: stirlingtools/stirling-pdf:latest
+    container_name: stirling-pdf
+    restart: unless-stopped
+    ports:
+      - "9280:8080"
+    environment:
+      - DOCKER_ENABLE_SECURITY=false # Đổi thành true nếu muốn bắt buộc đăng nhập tài khoản
+      - SECURITY_ENABLE_LOGIN=false  # Đổi thành true để kích hoạt hệ thống tài khoản
+      - SYSTEM_DEFAULTLOCALE=vi-VN   # Ngôn ngữ mặc định: Tiếng Việt
+      - UI_APP_NAME=Stirling - Trình xử lý mọi tác vụ PDF
+      - UI_HOME_DESCRIPTION=Trình xử lý mọi tác vụ PDF
+      - SYSTEM_MAXFILESIZE=500                # Dung lượng file tối đa (500 MB)
+      - SYSTEM_CLEANUPTIMEHOURS=1             # Tự động dọn dẹp file sau 1 giờ
+      - TEMPFILEMANAGEMENT_MAXAGEHOURS=1      # Tuổi thọ tối đa của file tạm (1 giờ)
+      - TEMPFILEMANAGEMENT_CLEANUPINTERVALMINUTES=15 # Quét và dọn rác mỗi 15 phút
+      - TEMPFILEMANAGEMENT_CLEANUPSYSTEMTEMP=true    # Dọn dẹp cả thư mục temp của hệ thống
+      - TEMPFILEMANAGEMENT_STARTUPCLEANUP=true       # Dọn sạch file rác cũ khi container khởi động
+      - SYSTEM_ENABLEANALYTICS=false          # Tắt thống kê dữ liệu ra ngoài, bảo vệ riêng tư
+    deploy:
+      resources:
+        limits:
+          memory: 8g
+    mem_limit: 8g
+    volumes:
+      - ./data/trainingData:/usr/share/tessdata # Dữ liệu ngôn ngữ OCR (VD: tiếng Việt vie.traineddata)
+      - ./data/extraConfigs:/configs           # Cấu hình hệ thống & database tài khoản
+      - ./data/logs:/logs                      # Nhật ký hoạt động
+      - ./data/customFiles:/customFiles        # Tùy biến giao diện (nếu cần)
+      - ./pipeline/Scan-In:/pipeline/watchedFolders/Scan-In   # Thư mục ném file scan vào
+      - ./pipeline/Scan-Out:/pipeline/finishedFolders         # Thư mục nhận file kết quả OCR
+
+  opendataloader:
+    build: ./opendataloader
+    container_name: opendataloader-pdf
+    restart: unless-stopped
+    ports:
+      - "9281:8000"
+    volumes:
+      - ./pipeline/PDF-To-Markdown-In:/shared/input
+      - ./pipeline/PDF-To-Markdown-Out:/shared/output
+    deploy:
+      resources:
+        limits:
+          memory: 4g
+    mem_limit: 4g
